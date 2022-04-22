@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="opencv_jupyter_ui",
-    version="1.0.0",
+    version="1.0.3",
     author="Seyed Modaresi",
     author_email="alim1369@gmail.com",
     description="A simple widget to display opencv imshow",
@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache License 2.0",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
 )

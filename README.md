@@ -2,7 +2,7 @@
 As you know it is not possible to use `cv2.imshow` in the remote jupyter notebook or colab.
 This is the replacement of `cv2.imshow` for jupyter. you need only to replace `cv2.imshow` to `cv2_imshow`. It will works in jupyter.
 
-Please don't forget to call `cv2_releaseAllWindows()` in the begining of your jupyter cells otherwise it will not be displayed for the next time
+Please don't forget to call `cv2_destroyAllWindows()` in the begining of your jupyter cells otherwise it will not be displayed for the next time
 
 # Installation
 
@@ -13,12 +13,12 @@ pip install opencv_jupyter_ui
 # Usage
 ## import
 ```
-from opencv_jupyter_ui import cv2_imshow, cv2_releaseAllWindows
+from opencv_jupyter_ui import cv2_imshow, cv2_destroyAllWindows
 ```
 ## reseting windows:
-Don't forget to add the following line to the first line of your cells
+Don't forget to add the following line to the first line of your cells otherwise your images will not be shown
 ```
-cv2_releaseAllWindows()
+cv2_destroyAllWindows()
 ```
 ## Showing Frame
 It is exactly like `cv2.imshow` you just need to change `.` to `_`.
@@ -36,9 +36,9 @@ Please note that you can also put CSS string instead e.g., `width='100%'`
 
 # Example
 ```
-from opencv_jupyter_ui import cv2_imshow, cv2_releaseAllWindows
+from opencv_jupyter_ui import cv2_imshow, cv2_destroyAllWindows
 
-cv2_releaseAllWindows() # Important otherwise it will work only for the first time
+cv2_destroyAllWindows() # Important otherwise it will work only for the first time
 
 def getTestCV2Frame(i):
 	import numpy as np
