@@ -57,5 +57,5 @@ for i in range(200):
 	time.sleep(.1)
 ```
 Output:
-![test](text.gif)
+![test](test.gif)
 
