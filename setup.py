@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="opencv_jupyter_ui",
-    version="1.0.3",
+    version="1.1.1",
     author="Seyed Modaresi",
     author_email="alim1369@gmail.com",
     description="A simple widget to display opencv imshow",
@@ -18,4 +18,7 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
+    install_requires=[
+          'ipycanvas',
+      ],
 )
