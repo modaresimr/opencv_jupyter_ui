@@ -4,7 +4,18 @@ This is the replacement of `cv2.imshow` for jupyter. you need only to replace `c
 
 # Installation
 ```
-pip install opencv_jupyter_ui
+pip install -U opencv_jupyter_ui
+```
+please upgrade ipycanvas to version 0.12 for higher performance `!pip install -q ipycanvas>=0.12`
+
+# COLAB 
+for google colab please add the following codes and restart all the cells.
+
+[Colab Demo](https://colab.research.google.com/drive/1VBFYg40hJOedv9ieORfoJZAWZgU9fBTR?usp=sharing)
+```
+!pip install -q ipycanvas==0.11
+from google.colab import output
+output.enable_custom_widget_manager()
 ```
 
 # Usage
@@ -26,7 +37,7 @@ cv2_imshow('test',frame,height=150) # scale down/up your image to fit this heigh
 cv2_imshow('test',frame,width=100,height=150) # skretch your image to this size
 cv2_imshow('test',frame,color_space='rgb') # color_space=rgb or bgr, default: bgr
 ```
-Please note that you can also put CSS string instead e.g., `width='100%'`
+Please note that you can also put CSS string instead e.g., `width='100%'` but it has higher overhead
 
 ## reseting and destroying windows:
 from opencv_jupyter_ui import cv2_destroyAllWindows
@@ -64,11 +75,4 @@ Output:
 if it is not in jupyter it will display an opencv window. please don't forget to call `cv2_destroyAllWindows()` if it is not in jupyter
 
 
-# COLAB 
-for google colab please add the following codes and restart all the cells.
-```
-!pip install -q ipycanvas==0.11
-from google.colab import output
-output.enable_custom_widget_manager()
 
-```
