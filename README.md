@@ -62,3 +62,13 @@ Output:
 
 # running in normal python
 if it is not in jupyter it will display an opencv window. please don't forget to call `cv2_destroyAllWindows()` if it is not in jupyter
+
+
+# COLAB 
+for google colab please add the following codes and restart all the cells.
+```
+!pip install -q ipycanvas==0.11
+from google.colab import output
+output.enable_custom_widget_manager()
+
+```
