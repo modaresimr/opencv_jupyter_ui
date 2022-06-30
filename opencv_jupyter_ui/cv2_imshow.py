@@ -15,7 +15,7 @@ def remove_old_windows_if_needed():
 		cv2_destroyAllWindows()
 		windows['_last_exec']=get_ipython().execution_count
 
-def cv2_imshow(name,image,width=None,height=None,colorspace='bgr'):
+def cv2_imshow(name,image,width=None,height=None,colorspace='bgr',force_clear=False):
 	if not in_notebook():
 		try:
 			import cv2
@@ -47,25 +47,24 @@ def cv2_imshow(name,image,width=None,height=None,colorspace='bgr'):
 		
 		if w==-1 and h!=-1:
 			w=image.shape[1]*h//image.shape[0]
-			cv2.resive(image,(h,w))
+			cv2.resize(image,(h,w))
 		elif w!=-1 and h==-1:
 			h=image.shape[0]*w//image.shape[1]
-			cv2.resive(image,(h,w))
+			cv2.resize(image,(h,w))
 		elif w!=-1 and h!=-1:
-			cv2.resive(image,(h,w))
+			cv2.resize(image,(h,w))
 	except:
-		print('warning cv2 not found-> it may cause performance issue')
+		print('warning an error occured! maybe cv2 not found-> it may cause performance issue')
 
 	canvas=windows[name].children[1]
+	if colorspace=='bgr': image=image[:,:,::-1] # convert to rgb
 	with hold_canvas(canvas):
-		if image is None or old.get('image',np.zeros(1)).shape!=image.shape:
-			canvas.clear()
 		if image is None:
+			canvas.clear()
 			return
-		old['image']=image
-
-		if colorspace=='bgr':
-			image=image[:,:,::-1] # convert to rgb
+		if force_clear or old.get(f'{name}-image',np.zeros(1)).shape!=image.shape:
+			canvas.clear()
+		old[f'{name}-image']=image
 		canvas.put_image_data(image)
 		
         
@@ -83,6 +82,7 @@ def cv2_destroyAllWindows():
 			return cv2.destroyAllWindows()
 		except:pass
 	windows.clear()
+	old.clear()
 
 
 def in_notebook():
