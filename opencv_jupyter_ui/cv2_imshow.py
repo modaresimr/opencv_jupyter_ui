@@ -32,7 +32,8 @@ def cv2_imshow(name,image,width=None,height=None,colorspace='bgr'):
 		box.layout.width='fit-content'
 		display(box)
 		windows[name]=box
-	
+
+	layout={}	
 	if width:
 		layout['width']=f'{width}px' if type(width) ==int else width
 
@@ -46,15 +47,15 @@ def cv2_imshow(name,image,width=None,height=None,colorspace='bgr'):
 		
 		if w==-1 and h!=-1:
 			w=image.shape[1]*h//image.shape[0]
-			cv2.resive(image,(w,h))
+			cv2.resive(image,(h,w))
 		elif w!=-1 and h==-1:
 			h=image.shape[0]*w//image.shape[1]
-			cv2.resive(image,(w,h))
+			cv2.resive(image,(h,w))
 		elif w!=-1 and h!=-1:
-			cv2.resive(image,(w,h))
+			cv2.resive(image,(h,w))
 	except:
 		print('warning cv2 not found-> it may cause performance issue')
-		
+
 	canvas=windows[name].children[1]
 	with hold_canvas(canvas):
 		if image is None or old.get('image',np.zeros(1)).shape!=image.shape:
@@ -66,7 +67,7 @@ def cv2_imshow(name,image,width=None,height=None,colorspace='bgr'):
 		if colorspace=='bgr':
 			image=image[:,:,::-1] # convert to rgb
 		canvas.put_image_data(image)
-		layout={}
+		
         
 		canvas.width=image.shape[1]
 		canvas.height=image.shape[0]
