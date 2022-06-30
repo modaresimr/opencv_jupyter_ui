@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="opencv_jupyter_ui",
-    version="1.1.1",
+    version="1.2.0",
     author="Seyed Modaresi",
     author_email="alim1369@gmail.com",
     description="A simple widget to display opencv imshow",

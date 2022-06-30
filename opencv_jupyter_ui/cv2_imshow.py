@@ -2,7 +2,10 @@ from glob import glob
 from ipycanvas import Canvas, hold_canvas
 from ipywidgets import VBox,HTML
 from IPython.display import display
+import numpy as np
 windows={}
+
+old={}
 
 def remove_old_windows_if_needed():
 		
@@ -30,11 +33,36 @@ def cv2_imshow(name,image,width=None,height=None,colorspace='bgr'):
 		display(box)
 		windows[name]=box
 	
+	if width:
+		layout['width']=f'{width}px' if type(width) ==int else width
+
+	if height:layout['height']=f'{height}px' if type(height) ==int else height
+	if not (width or height):
+		layout['width']=f'{image.shape[1]}px'
+	try:
+		import cv2
+		h= height if height and type(height) ==int else -1
+		w= width if width and type(width) ==int else -1
+		
+		if w==-1 and h!=-1:
+			w=image.shape[1]*h//image.shape[0]
+			cv2.resive(image,(w,h))
+		elif w!=-1 and h==-1:
+			h=image.shape[0]*w//image.shape[1]
+			cv2.resive(image,(w,h))
+		elif w!=-1 and h!=-1:
+			cv2.resive(image,(w,h))
+	except:
+		print('warning cv2 not found-> it may cause performance issue')
+		
 	canvas=windows[name].children[1]
 	with hold_canvas(canvas):
-		canvas.clear()
+		if image is None or old.get('image',np.zeros(1)).shape!=image.shape:
+			canvas.clear()
 		if image is None:
 			return
+		old['image']=image
+
 		if colorspace=='bgr':
 			image=image[:,:,::-1] # convert to rgb
 		canvas.put_image_data(image)
@@ -42,13 +70,7 @@ def cv2_imshow(name,image,width=None,height=None,colorspace='bgr'):
         
 		canvas.width=image.shape[1]
 		canvas.height=image.shape[0]
-        
-		if width:
-			layout['width']=f'{width}px' if type(width) ==int else width
-        
-		if height:layout['height']=f'{height}px' if type(height) ==int else height
-		if not (width or height):
-			layout['width']=f'{image.shape[1]}px'
+		
 		canvas.layout=layout
         
 		
