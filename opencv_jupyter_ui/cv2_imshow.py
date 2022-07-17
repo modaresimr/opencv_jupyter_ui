@@ -1,6 +1,6 @@
 from glob import glob
 from ipycanvas import Canvas, hold_canvas
-from ipywidgets import VBox,HTML
+from ipywidgets import VBox,HBox,HTML,Button
 from IPython.display import display
 import numpy as np
 windows={}
@@ -25,6 +25,9 @@ def cv2_imshow(name,image,width=None,height=None,colorspace='bgr',force_clear=Fa
 			return
 
 	remove_old_windows_if_needed()
+	defineButtons()
+	
+
 	if name not in windows:
 		box=VBox([HTML(f'<center>{name}</center>'),Canvas()])
 		box.layout.border='1.5px solid'
@@ -41,20 +44,21 @@ def cv2_imshow(name,image,width=None,height=None,colorspace='bgr',force_clear=Fa
 	if not (width or height):
 		layout['width']=f'{image.shape[1]}px'
 	try:
-		import cv2
+	
 		h= height if height and type(height) ==int else -1
 		w= width if width and type(width) ==int else -1
-		
-		if w==-1 and h!=-1:
-			w=image.shape[1]*h//image.shape[0]
-			cv2.resize(image,(h,w))
-		elif w!=-1 and h==-1:
-			h=image.shape[0]*w//image.shape[1]
-			cv2.resize(image,(h,w))
-		elif w!=-1 and h!=-1:
-			cv2.resize(image,(h,w))
+		if w!=-1 or h!=-1	:
+			import cv2
+			if w==-1 and h!=-1:
+				w=image.shape[1]*h//image.shape[0]
+				cv2.resize(image,(h,w))
+			elif w!=-1 and h==-1:
+				h=image.shape[0]*w//image.shape[1]
+				cv2.resize(image,(h,w))
+			elif w!=-1 and h!=-1:
+				cv2.resize(image,(h,w))
 	except:
-		print('warning an error occured! maybe cv2 not found-> it may cause performance issue')
+		showWarning('warning an error occured! maybe cv2 not found-> it may cause performance issue')
 
 	canvas=windows[name].children[1]
 	if colorspace=='bgr': image=image[:,:,::-1] # convert to rgb
@@ -73,7 +77,10 @@ def cv2_imshow(name,image,width=None,height=None,colorspace='bgr',force_clear=Fa
 		
 		canvas.layout=layout
         
-		
+def showWarning(msg):
+	if windows.get('show_warning',True):
+		print(msg)
+		windows['show_warning']=False
 
 def cv2_destroyAllWindows():
 	if not in_notebook():
@@ -95,3 +102,89 @@ def in_notebook():
     except AttributeError:
         return False
     return True
+
+
+def defineButtons():
+	if 'buttons' not in windows:
+
+		wbtn=defineWaitKeyButton();
+		sbtn=defineStopButton()
+
+		box=HBox([sbtn,wbtn])
+		# box.layout.width='fit-content'
+		display(box)
+		windows['buttons']={'stop':sbtn,'waitkey':wbtn}
+	return windows['buttons']
+
+
+def defineWaitKeyButton():
+	btn=Button(description='OpenCV waitKey')
+	btn.layout.visibility = 'hidden'
+	def on_click(btn):
+	#     btn.description = '👍'
+		btn.done=True
+
+	btn.done=False
+	btn.on_click(on_click)
+		
+	return btn
+		
+
+def defineStopButton():
+		btn=Button(description='Stop',button_style='danger')
+		
+		def on_click(btn):
+			btn.stop=True
+			import signal
+			
+			signal.raise_signal(signal.SIGINT)
+		
+
+		btn.on_click(on_click)
+		
+		return btn
+	
+
+def cv2_waitKey(t):
+	try:
+		if not in_notebook():
+			try:
+				import cv2
+				return cv2.waitKey(t)
+			except:
+				print('no notebook and cv2 found')
+				return
+		
+		import time
+		from jupyter_ui_poll import ui_events
+
+		
+		t_in_sec=t/1000.0
+		wait_time=max(0.001,min(t_in_sec/10,.1))
+
+		btn=defineButtons()['waitkey']
+		btn.done=False
+		btn.description=f'CV waitKey {t}'
+		if t_in_sec>.5:
+			btn.layout.visibility = 'unset'
+		
+		
+		# Wait for user to press the button
+		with ui_events() as poll:
+			start = time.time()
+			while time.time()-start<t_in_sec and not btn.done:
+				poll(5)          # React to UI events (upto 10 at a time)
+				# print('.', end='')
+				time.sleep(wait_time)
+				
+			btn.layout.visibility = 'hidden'
+
+		return 0xff
+	except KeyboardInterrupt:
+		class StopExecution(Exception):
+			def _render_traceback_(self):
+				pass
+		print('Exection is stopped')
+		defineButtons()['waitkey'].layout.visibility = 'hidden'
+		defineButtons()['stop'].layout.visibility = 'hidden'
+		raise StopExecution
