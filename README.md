@@ -83,11 +83,11 @@ for i in range(200):
 jcv2.destroyAllWindows() #optinal, only needed if you don't run it in notebook
 ```
 Output:
-![test](test.gif)
+![test](https://raw.githubusercontent.com/modaresimr/opencv_jupyter_ui/main/test.gif)
 
 
 # running in normal python
-if it is not in jupyter it will display an opencv window. please don't forget to call `cv2_destroyAllWindows()` if it is not in jupyter
+if it is not in jupyter it will display an opencv window. please don't forget to call `jcv2.destroyAllWindows()` and `jcv2.waitkey(100)` if it is not in jupyter
 
 
 
