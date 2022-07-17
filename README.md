@@ -6,7 +6,7 @@ This is the replacement of `cv2.imshow` for jupyter. you need only to replace `c
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/modaresimr/opencv_jupyter_ui/HEAD?labpath=test.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/modaresimr/opencv_jupyter_ui/blob/master/test.ipynb)
 
-```
+
 
 # Installation
 ```
@@ -30,7 +30,7 @@ For google colab please add the following codes and restart all the cells.
 !pip install -q ipycanvas==0.11
 from google.colab import output
 output.enable_custom_widget_manager()
-
+```
 
 # Usage
 ## import
