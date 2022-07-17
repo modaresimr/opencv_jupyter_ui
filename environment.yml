@@ -1,0 +1,8 @@
+name: python 3.8
+dependencies:
+  - python=3.8
+  - numpy
+  - ipywidgets
+  - jupyter_ui_poll
+  - ipycanvas
+  - cv2

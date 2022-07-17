@@ -2,6 +2,12 @@
 As you know it is not possible to use `cv2.imshow` in the remote jupyter notebook or colab.
 This is the replacement of `cv2.imshow` for jupyter. you need only to replace `cv2.imshow` to `jcv2.imshow`. It will works in jupyter or python.
 
+# Live Demo:
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/modaresimr/opencv_jupyter_ui/HEAD?labpath=test.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/modaresimr/opencv_jupyter_ui/blob/master/test.ipynb)
+
+```
+
 # Installation
 ```
 pip install -U opencv_jupyter_ui
@@ -17,15 +23,14 @@ jupyter labextension install @jupyter-widgets/jupyterlab-manager ipycanvas
 ```
 please upgrade ipycanvas to version 0.12 for higher performance `!pip install -q ipycanvas>=0.12`
 
-# COLAB 
-for google colab please add the following codes and restart all the cells.
+## Installation on Colab 
+For google colab please add the following codes and restart all the cells.
 
-[Colab Demo](http://colab.research.google.com/github/modaresimr/opencv_jupyter_ui/blob/master/test.ipynb)
 ```
 !pip install -q ipycanvas==0.11
 from google.colab import output
 output.enable_custom_widget_manager()
-```
+
 
 # Usage
 ## import

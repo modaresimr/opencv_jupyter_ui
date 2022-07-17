@@ -19,6 +19,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-          'ipycanvas','jupyter_ui_poll','ipywidgets'
+          'ipycanvas','jupyter_ui_poll','ipywidgets','numpy'
       ],
 )

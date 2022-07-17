@@ -1,0 +1,4 @@
+jupyter nbextension install --py --symlink --sys-prefix ipycanvas
+jupyter nbextension enable --py --sys-prefix ipycanvas
+# !conda install -c conda-forge nodejs  # run this if you don't have nodejs
+jupyter labextension install @jupyter-widgets/jupyterlab-manager ipycanvas
