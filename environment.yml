@@ -5,4 +5,4 @@ dependencies:
   - ipywidgets
   - jupyter-ui-poll
   - ipycanvas
-  - opencv-python
+  - opencv
