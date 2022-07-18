@@ -1,6 +1,4 @@
 from glob import glob
-from tkinter import Label
-from turtle import onclick
 from ipycanvas import Canvas, hold_canvas
 from ipywidgets import VBox,HBox,HTML,Button,Label
 from IPython.display import display
@@ -18,7 +16,7 @@ def setKeys(keys_):
 		else:
 			keys[k]=ord(k)
 
-setKeys({'esc','space','enter','q'})
+setKeys(['q','esc','space','enter'])
 
 def remove_old_windows_if_needed():
 		
@@ -138,7 +136,7 @@ def defineWaitKeyButton():
 	#     btn.description = '👍'
 		box.pressed_key=btn.code
 
-	allbtn=[Label(description='OpenCV waitKey')]
+	allbtn=[Label(value='OpenCV waitKey:')]
 	for k in keys:
 		btn=Button(description=k)
 		btn.code=keys[k]
