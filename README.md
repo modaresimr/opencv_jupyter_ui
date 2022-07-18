@@ -57,6 +57,13 @@ Please note that you can also put CSS string instead e.g., `width='100%'` but it
 When you use cv2.waitKey, you need to change it to jcv2.waitKey.
 ```jcv2.waitKey(1000) # to wait for a button press in one second```
 
+### define more keys:
+you can define custom keys with this command
+```
+jcv2.setKeys(['q','esc','enter','space'])
+```
+Supported special keys are: `esc`:27,`space`:32,`enter`:10,`left`:2424832,`right`:2555904,`up`:2490368,`down`:2621440,`del`:3014656
+
 ## reseting and destroying windows:
 The following line where you clear the output
 ```
@@ -79,7 +86,8 @@ import opencv_jupyter_ui as jcv2
 for i in range(200):
 	frame= getTestCV2Frame(i)
 	jcv2.imshow('test',frame)
-	jcv2.waitKey(1000)
+	if jcv2.waitKey(1000)=='q':
+		break
 jcv2.destroyAllWindows() #optinal, only needed if you don't run it in notebook
 ```
 Output:

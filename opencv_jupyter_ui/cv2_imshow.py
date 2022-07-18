@@ -1,11 +1,24 @@
 from glob import glob
+from tkinter import Label
+from turtle import onclick
 from ipycanvas import Canvas, hold_canvas
-from ipywidgets import VBox,HBox,HTML,Button
+from ipywidgets import VBox,HBox,HTML,Button,Label
 from IPython.display import display
 import numpy as np
 windows={}
 
 old={}
+keys={}
+specialKeys={'esc':27,'space':32,'enter':10,'left':2424832,'right':2555904,'up':2490368,'down':2621440,'del':3014656}
+def setKeys(keys_):
+	keys.clear()
+	for k in keys_:
+		if k in specialKeys:
+			keys[k]=specialKeys[k]
+		else:
+			keys[k]=ord(k)
+
+setKeys({'esc','space','enter','q'})
 
 def remove_old_windows_if_needed():
 		
@@ -88,6 +101,8 @@ def cv2_destroyAllWindows():
 			import cv2
 			return cv2.destroyAllWindows()
 		except:pass
+	defineButtons()['stop'].layout.visibility = 'hidden'
+	defineButtons()['waitkey'].layout.visibility = 'hidden'
 	windows.clear()
 	old.clear()
 
@@ -118,16 +133,26 @@ def defineButtons():
 
 
 def defineWaitKeyButton():
-	btn=Button(description='OpenCV waitKey')
-	btn.layout.visibility = 'hidden'
+	box=HBox()
 	def on_click(btn):
 	#     btn.description = '👍'
-		btn.done=True
+		box.pressed_key=btn.code
 
-	btn.done=False
-	btn.on_click(on_click)
-		
-	return btn
+	allbtn=[Label(description='OpenCV waitKey')]
+	for k in keys:
+		btn=Button(description=k)
+		btn.code=keys[k]
+		btn.layout.width='fit-content'
+		btn.on_click(on_click)
+		allbtn.append(btn)
+	
+
+
+	box.children=allbtn
+	box.layout.visibility = 'hidden'
+	box.pressed_key=False
+
+	return box
 		
 
 def defineStopButton():
@@ -159,27 +184,29 @@ def cv2_waitKey(t):
 		from jupyter_ui_poll import ui_events
 
 		
-		t_in_sec=t/1000.0
+		t_in_sec=t/1000.0 if t>0 else 100000
+
 		wait_time=max(0.001,min(t_in_sec/10,.1))
 
 		btn=defineButtons()['waitkey']
-		btn.done=False
-		btn.description=f'CV waitKey {t}'
-		if t_in_sec>.5:
+		btn.pressed_key=False
+		# btn.description=f'CV waitKey {t}'
+		if t_in_sec>.1:
 			btn.layout.visibility = 'unset'
 		
 		
 		# Wait for user to press the button
 		with ui_events() as poll:
 			start = time.time()
-			while time.time()-start<t_in_sec and not btn.done:
-				poll(5)          # React to UI events (upto 10 at a time)
+			while time.time()-start<t_in_sec and not btn.pressed_key:
+				poll(10)          # React to UI events (upto 10 at a time)
 				# print('.', end='')
 				time.sleep(wait_time)
 				
 			btn.layout.visibility = 'hidden'
 
-		return 0xff
+		return btn.pressed_key
+
 	except KeyboardInterrupt:
 		class StopExecution(Exception):
 			def _render_traceback_(self):
@@ -188,3 +215,8 @@ def cv2_waitKey(t):
 		defineButtons()['waitkey'].layout.visibility = 'hidden'
 		defineButtons()['stop'].layout.visibility = 'hidden'
 		raise StopExecution
+
+
+
+
+	
