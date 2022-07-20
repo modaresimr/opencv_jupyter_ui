@@ -147,7 +147,7 @@ def defineWaitKeyButton():
 
 
 	box.children=allbtn
-	box.layout.visibility = 'hidden'
+	# box.layout.visibility = 'hidden'
 	box.pressed_key=False
 
 	return box
@@ -187,10 +187,9 @@ def cv2_waitKey(t):
 		wait_time=max(0.001,min(t_in_sec/10,.1))
 
 		btn=defineButtons()['waitkey']
-		btn.pressed_key=False
 		# btn.description=f'CV waitKey {t}'
-		if t_in_sec>.1:
-			btn.layout.visibility = 'unset'
+		# if t_in_sec>.1:
+		# 	btn.layout.visibility = 'unset'
 		
 		
 		# Wait for user to press the button
@@ -200,10 +199,14 @@ def cv2_waitKey(t):
 				poll(10)          # React to UI events (upto 10 at a time)
 				# print('.', end='')
 				time.sleep(wait_time)
-				
-			btn.layout.visibility = 'hidden'
+			# btn.layout.visibility = 'hidden'
 
-		return btn.pressed_key
+		if btn.pressed_key: 
+			k=btn.pressed_key
+			btn.pressed_key=False
+			return k
+
+		return -1
 
 	except KeyboardInterrupt:
 		class StopExecution(Exception):
