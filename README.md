@@ -14,6 +14,11 @@ pip install -U opencv_jupyter_ui
 ```
 Then activate extension
 ```
+jupyter nbextension install --user --py ipycanvas
+jupyter nbextension enable --user --py ipycanvas
+```
+or
+```
 jupyter nbextension install --py --symlink --sys-prefix ipycanvas
 jupyter nbextension enable --py --sys-prefix ipycanvas
 ```
