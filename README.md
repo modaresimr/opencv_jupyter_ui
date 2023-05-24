@@ -1,4 +1,12 @@
 # opencv_jupyter_ui
+The "OpenCV Jupyter UI" project addresses the compatibility issue between OpenCV's user interface components and Jupyter Notebooks. In remote Jupyter environments such as Jupyter Notebook or Google Colab, the traditional method of using `cv2.imshow` for displaying images is not supported. This project introduces an alternative solution by providing the `jcv2.imshow` function, which is compatible with Jupyter environments.
+
+By replacing `cv2.imshow` with `jcv2.imshow`, users can seamlessly display images within Jupyter Notebooks without encountering compatibility errors. The `jcv2.imshow` function leverages Jupyter's capabilities to render images and ensures a smooth integration between OpenCV and Jupyter.
+
+Additionally, the project addresses the need for user interaction and replaces the usage of `cv2.waitKey` with `jcv2.waitKey`. For instance, `jcv2.waitKey(1000)` waits for a button press for one second.
+
+By bridging the gap between OpenCV and Jupyter, the "OpenCV Jupyter UI" project enhances the usability and convenience of using OpenCV's user interface components within Jupyter Notebooks. Users can seamlessly leverage OpenCV functionalities for image processing and visualization, empowering them to work efficiently in Jupyter environments.
+
 As you know it is not possible to use `cv2.imshow` in the remote jupyter notebook or colab.
 This is the replacement of `cv2.imshow` for jupyter. you need only to replace `cv2.imshow` to `jcv2.imshow`. It will works in jupyter or python.
 
