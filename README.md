@@ -1,4 +1,6 @@
 # opencv_jupyter_ui
+[![](https://static.pepy.tech/badge/opencv_jupyter_ui?style=flat-square)](https://www.pepy.tech/projects/opencv_jupyter_ui)
+
 The "OpenCV Jupyter UI" project addresses the compatibility issue between OpenCV's user interface components and Jupyter Notebooks. In remote Jupyter environments such as Jupyter Notebook or Google Colab, the traditional method of using `cv2.imshow` for displaying images is not supported. This project introduces an alternative solution by providing the `jcv2.imshow` function, which is compatible with Jupyter environments.
 
 By replacing `cv2.imshow` with `jcv2.imshow`, users can seamlessly display images within Jupyter Notebooks without encountering compatibility errors. The `jcv2.imshow` function leverages Jupyter's capabilities to render images and ensures a smooth integration between OpenCV and Jupyter.
